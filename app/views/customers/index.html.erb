@@ -1,0 +1,19 @@
+<div class="container">
+  <h2>最近アクセスした顧客</h2>           
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>コード</th>
+        <th>顧客名</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customers.each do |customer| %>
+        <tr>
+          <td><%= link_to customer.code, customer_path(customer) %></td>
+          <td><%= customer.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

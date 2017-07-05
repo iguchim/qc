@@ -1,0 +1,29 @@
+<h2><%= @customer.name %></h2>
+<div class="container">
+  <h3>製品リスト</h3>           
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>商品コード</th>
+        <th>商品名</th>
+        <th>材料</th>
+        <th>表面処理</th>
+        <th>熱処理</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @customer.products.each do |product| %>
+        <tr>
+          <td><%= link_to "#{product.code}", product_path(product) %></td>
+          <td><%= product.name %></td>
+          <td><%= product.material %></td>
+          <td><%= product.surface %></td>
+          <td><%= product.heat %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if logged_in? %>
+    <%= link_to '製品追加', new_customer_product_path(@customer), class: 'btn btn-primary' %>
+  <% end %>
+</div>

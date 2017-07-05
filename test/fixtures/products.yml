@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  num: 
+  name: 
+  material: 
+  surface: 
+  heat: 
+  customer_id: 
+
+two:
+  num: 
+  name: 
+  material: 
+  surface: 
+  heat: 
+  customer_id: 

@@ -1,0 +1,57 @@
+<% if false %>
+<p class = 'pull-right'>
+  <% if logged_in? %>
+    [<%= link_to '編集', edit_product_inspection_path(@product, @inspection) %>]
+  <% end %>
+</p>
+<% end %>
+
+<p>
+  項目番号：　 <%= @inspection.num %>
+</p>
+<hr/>
+<p>
+  摘要：　　　<%= @inspection.synopsis %>
+</p>
+<hr/>
+<p>
+  標準：　　　<%= @inspection.standard %>
+</p>
+<hr/>
+<p>
+  上限：　　　<%= @inspection.max %>
+</p>
+<hr/>
+<p>
+  下限：　　　<%= @inspection.min %>
+</p>
+<hr/>
+<p>
+  測定器：　　<%= @inspection.tool %>
+</p>
+<hr/>
+<p>
+  単位：　　　<%= @inspection.unit %>
+</p>
+<hr/>
+
+<%= form_for @inspection do |f| %>
+  <%= f.nested_fields_for :inspect_data do |q| %>
+    <div class = 'control-group form-inline'>
+      <%= q.label :num, "#{q.object.num || "_"}", class: "form-control" %>
+      <% if full_to_half(@inspection.unit) == 'mm' %>
+        <%= q.text_field :num_data, class: "form-control" %>
+      <% else %>
+        <%= q.text_field :str_data, class: "form-control" %>
+      <% end %>
+      <td><%= q.remove_nested_fields_link '削除', class: 'btn btn-danger', role: 'button' %></td>
+    </div>
+  <% end %>
+  
+  <%= f.add_nested_fields_link :inspect_data, '追加', class: 'btn btn-primary', role: 'button' %>
+  <%= f.submit "保存", class: 'btn btn-primary', role: 'button' %>
+  <%= hidden_field_tag(:product_id, @product.id) %>
+  <%= hidden_field_tag(:production_id, @production.id) %>
+  <%= hidden_field_tag(:inspection_id, @inspection.id) %>
+  <%= link_to("戻る", product_production_path(@product, @production), class: 'btn btn-primary', role: 'button') %>
+<% end %>

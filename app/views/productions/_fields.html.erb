@@ -1,0 +1,25 @@
+<div class="form-group">
+  <%= f.label :lot, "ロット番号", class: "col-xs-2 control-label" %>
+  <div class="col-xs-4">
+    <%= f.text_field :lot, class: "form-control" %>
+  </div>
+</div>
+
+<div class="form-group">
+  <%= f.label :inspect_date, "検査日", class: "col-xs-2 control-label" %>
+  <div class="col-xs-4">
+    <div class="input-group date datetimepicker">
+      <%= f.text_field :inspect_date, class: "form-control" %>
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+    </div>
+  </div>
+</div>
+
+<div class="form-group">
+  <%= f.label :pcs, "PCS", class: "col-xs-2 control-label" %>
+  <div class="col-xs-4">
+    <%= f.text_field :pcs, class: "form-control" %>
+  </div>
+</div>

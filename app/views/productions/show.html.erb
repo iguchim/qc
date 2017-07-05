@@ -1,0 +1,148 @@
+<p class = 'pull-right'>
+  <% if logged_in? %>
+    [<%= link_to '編集', edit_product_production_path(@product, @production)%>]
+  <% end %>
+</p>
+
+<p>
+  ロット番号：　<%= @production.lot %>
+</p>
+<hr/>
+<p>
+  検査日：　　　<%= @production.inspect_date %>
+</p>
+<hr/>
+<p>
+  PCS：　　　   <%= @production.pcs %>
+</p>
+<hr/>
+
+<div class="container">
+  <h2>検査データ</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th nowrap>箇所</th>
+        <% @inspections.each do |inspection| %>
+          <th nowrap><%= inspection.num %></th>
+        <% end %>
+      </tr>
+      <tr>
+         <th nowrap>摘要</th>
+        <% @inspections.each do |inspection| %>
+          <th nowrap><%= inspection.synopsis %></th>
+        <% end %>
+      </tr>
+      <tr>
+         <th nowrap>規格</th>
+        <% @inspections.each do |inspection| %>
+          <th nowrap><%= inspection.standard %></th>
+        <% end %>
+      </tr>
+      <tr>
+         <th nowrap>上限</th>
+        <% @inspections.each do |inspection| %>
+          <th nowrap><%= inspection.max %></th>
+        <% end %>
+      </tr>
+      <tr>
+         <th nowrap>下限</th>
+        <% @inspections.each do |inspection| %>
+          <th nowrap><%= inspection.min %></th>
+        <% end %>
+      </tr>
+      <tr>
+         <th nowrap>測定器</th>
+        <% @inspections.each do |inspection| %>
+          <th nowrap><%= inspection.tool %></th>
+        <% end %>
+      </tr>
+      <tr>
+         <th nowrap>単位</th>
+        <% @inspections.each do |inspection| %>
+          <th nowrap><%= inspection.unit %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+    <% if @inspect_data.size > 0 %>
+      <% ok_ng = Array.new(@inspections.length) %>
+      <% num = @inspect_data.first.num %>
+      <% index = 0 %>
+      <% data = @inspect_data[index] %>
+      <% while data %>
+        <tr>
+          <td><%= data.num %></td>
+          <% while data && num == data.num %>
+            <% @inspections.each do |inspection| %>
+              <% if data && inspection.num == data.i_num %>
+                <% ok_ng_idx = inspection.num - 1 %>
+                <% if data.num_data %>
+                  <% if ((inspection.min.nil?) && (data.num_data > inspection.max.to_f)) ||
+                        ((inspection.max.nil?) && (data.num_data < inspection.min.to_f)) %>
+                    <td class="warning"><%= data.num_data %></td>
+                  <% elsif ((inspection.min) && (inspection.max)) &&
+                           ((data.num_data < inspection.min.to_f) || 
+                           (data.num_data > inspection.max.to_f)) %>
+                    <td class="warning"><%= data.num_data %></td>
+                  <% else %>
+                    <td><%= data.num_data %></td>
+                  <% end %>
+                  <% if ok_ng[ok_ng_idx] != "NG" %>
+                    <% if (inspection.min.nil?) && (inspection.max.nil?) %>
+                      <% ok_ng[ok_ng_idx] = "NG" %>
+                    <% elsif (inspection.min.nil?) && (data.num_data > inspection.max.to_f) %>
+                      <% ok_ng[ok_ng_idx] = "NG" %>
+                    <% elsif (inspection.max.nil?) && (data.num_data < inspection.min.to_f) %>
+                      <% ok_ng[ok_ng_idx] = "NG" %>
+                    <% elsif ((inspection.min) && (inspection.max)) && ((data.num_data < inspection.min.to_f) || (data.num_data > inspection.max.to_f)) %>
+                      <% ok_ng[ok_ng_idx] = "NG" %>
+                    <% else %>
+                      <% ok_ng[ok_ng_idx] = "OK" %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <td><%= data.str_data %></td>
+                  <% if ok_ng[ok_ng_idx] != "NG" %>
+                    <% if data.str_data == "NG" %>
+                      <% ok_ng[ok_ng_idx] = "NG" %>
+                    <% elsif data.str_data == "OK" %>
+                      <% ok_ng[ok_ng_idx] = "OK" %>
+                    <% else %>
+                      <% ok_ng[ok_ng_idx] = "---" %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                <% index += 1 %>
+                <% data = @inspect_data[index] %>
+              <% else %>
+                <td></td>
+              <% end %>
+            <% end %>
+          <% end %>
+          <% if data %>
+            <% num = data.num %>
+          <% end %>
+        </tr>
+      <% end %>
+      <tr>
+      <td>判定</td>
+        <% ok_ng.each do |okng| %>
+          <td><%= okng %></td>
+        <% end %>
+      </tr>
+    <% end %>
+
+    
+      <% if logged_in? %>
+        <td></td>
+        <% @inspections.each do |inspection| %>
+          <td><%= link_to '編集',edit_inspection_inspect_datum_path(inspection, 1, :product_id => @product.id, :production_id => @production.id) %></td>
+        <% end %>
+      <% end %>
+    
+    </tbody>
+  </table>
+  <%= link_to '戻る', product_path(@product), class: 'btn btn-primary' %>
+  <%= link_to 'PDF作成', pdf_format_path(format: "pdf", product_id: @product.id, production_id: @production.id), class: 'btn btn-primary' %>
+</div>

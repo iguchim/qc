@@ -1,0 +1,130 @@
+
+<h2><%= @product.customer.name %></h2>
+<p class = 'pull-right'>
+  <% if logged_in? %>
+    [<%= link_to '編集', edit_product_path(@product)%>]
+  <% end %>
+</p>
+
+<p>
+  製品名：　　<%= @product.name %>
+</p>
+<hr/>
+<p>
+  品番：　　　<%= @product.num %>
+</p>
+<hr/>
+<p>
+  材料：　　　<%= @product.material %>
+</p>
+<hr/>
+<p>
+  表面処理：　<%= @product.surface %>
+</p>
+<hr/>
+<p>
+  熱処理：　　<%= @product.heat %>
+</p>
+<hr/>
+<div class="container">
+  <h2>検査項目</h2>
+  <%= form_tag graph_draw_path  do %>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>箇所</th>
+          <th>適要</th>
+          <th>規格</th>
+          <th>上限</th>
+          <th>下限</th>
+          <th>測定器</th>
+          <th>単位</th>
+          <th>グラフ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @inspects.each do |inspect| %>
+          <tr>
+            <td><%= link_to("#{inspect.num}", edit_inspection_path(inspect)) %></td>
+            <td><%= inspect.synopsis %></td>
+            <td><%= inspect.standard %></td>
+            <td><%= inspect.max %></td>
+            <td><%= inspect.min %></td>
+            <td><%= inspect.tool %></td>
+            <td><%= inspect.unit %></td>
+            <% if inspect.unit.blank? %>
+              <td></td>
+            <% else %>
+              <td><%= check_box_tag "inspects[]", inspect.num %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= hidden_field_tag :product_id, @product.id %>
+
+    <div class="form-inline">
+
+      <div class="form-group">
+        <label>期間：</label>
+      </div>
+      
+      <div class="form-group">
+        <div class='input-group date datetimepicker'>
+          <%= text_field_tag :start, nil, class: 'form-control' %>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>〜</label>
+      </div>
+      
+      <div class="form-group">
+        <div class='input-group date datetimepicker'>
+          <%= text_field_tag :end, nil, class: 'form-control' %>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+      </div>
+        
+      <%= submit_tag "グラフ表示", class: 'btn btn-primary' %>
+
+      <% if logged_in? %>
+        <%= link_to '検査項目追加', new_product_inspection_path(@product), class: 'btn btn-primary' %>
+      <% end %>
+
+    </div>
+
+  </div>
+  
+  <% end %>
+
+  <h2>検査データ</h2>
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ロット番号</th>
+          <th>検査日</th>
+          <th>PCS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @productions.each do |production| %>
+          <tr>
+            <td><%= link_to("#{production.lot}", product_production_path(@product, production)) %></td>
+            <td><%= production.inspect_date %></td>
+            <td><%= production.pcs %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to '戻る', @product.customer, class: 'btn btn-primary' %>
+    <% if logged_in? %>
+      <%= link_to '新規ロット追加', new_product_production_path(@product), class: 'btn btn-primary' %>
+    <% end %>
+
+</div>

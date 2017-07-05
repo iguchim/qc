@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  num: 
+  kind: 
+  synopsis: 
+  standard: 
+  min: 
+  max: 
+  tool: 
+  unit: 
+  change_date: 
+  remark: 
+  prouct_id_id: 
+
+two:
+  num: 
+  kind: 
+  synopsis: 
+  standard: 
+  min: 
+  max: 
+  tool: 
+  unit: 
+  change_date: 
+  remark: 
+  prouct_id_id: 

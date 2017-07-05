@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  num: 
+  synopsis: 
+  standard: 
+  min: 
+  max: 
+  tool: 
+  unit: 
+  product_id: 
+
+two:
+  num: 
+  synopsis: 
+  standard: 
+  min: 
+  max: 
+  tool: 
+  unit: 
+  product_id: 

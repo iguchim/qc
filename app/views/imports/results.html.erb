@@ -1,0 +1,42 @@
+<h3>インポートの結果</h3>
+<% if logs.length > 0 %>
+  <div class = 'row'>
+    <div class = 'alert alert-error span8'>
+      <ul>
+        <% logs.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<div class="container">
+  <h2>新規追加製品</h2>           
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>顧客名</th>
+        <th>商品コード</th>
+        <th>品番</th>
+        <th>品名</th>
+        <th>材質</th>
+        <th>表面処理</th>
+        <th>熱処理</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% new_products.each do |product| %>
+        <tr>
+          <td><%= product[:c_name] %></td>
+          <td><%= product[:code] %></td>
+          <td><%= product[:num] %></td>
+          <td><%= product[:name] %></td>
+          <td><%= product[:material] %></td>
+          <td><%= product[:surface] %></td>
+          <td><%= product[:heat] %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>製品リスト</h2>           
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>顧客名</th>
+        <th>商品コード</th>
+        <th>品番</th>
+        <th>品名</th>
+        <th>材質</th>
+        <th>表面処理</th>
+        <th>熱処理</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.c_name %></td>
+          <td><%= link_to("#{product.code}", product_path(product)) %></td>
+          <td><%= product.num %></td>
+          <td><%= product.name %></td>
+          <td><%= product.material %></td>
+          <td><%= product.surface %></td>
+          <td><%= product.heat %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
